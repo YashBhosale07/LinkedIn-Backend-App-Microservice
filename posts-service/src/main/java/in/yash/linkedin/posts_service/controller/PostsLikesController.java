@@ -4,10 +4,7 @@ import in.yash.linkedin.posts_service.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/likes")
@@ -20,5 +17,11 @@ public class PostsLikesController {
     public ResponseEntity<Void>likePost(@PathVariable Long postId){
         postLikeService.likePost(postId,1L);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void>unlikePost(@PathVariable Long postId){
+        postLikeService.unlikePost(postId,1l);
+        return ResponseEntity.noContent().build();
     }
 }

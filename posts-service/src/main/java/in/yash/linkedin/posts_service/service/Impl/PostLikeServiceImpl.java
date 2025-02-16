@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -42,5 +44,19 @@ public class PostLikeServiceImpl implements PostLikeService {
         log.info("Post has been successfully liked");
 
 
+    }
+
+    @Override
+    public void unlikePost(Long postId, long userId) {
+        boolean isPresentPost=postsRepository.existsById(postId);
+        if(!isPresentPost){
+            throw new ResourceNotFoundException("Post is not Present");
+        }
+        boolean savedLikedPost=postsLikeRepository.existsByUserIdAndPostId(postId,userId);
+        if(!savedLikedPost){
+            throw new BadRequestException("Cannot unlike the post which is not liked.");
+        }
+        postsLikeRepository.deleteByUserIdAndPostId(userId,postId);
+        log.info("Unlike the post succesfully");
     }
 }
