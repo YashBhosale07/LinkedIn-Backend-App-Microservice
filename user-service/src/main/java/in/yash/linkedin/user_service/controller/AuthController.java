@@ -2,6 +2,7 @@ package in.yash.linkedin.user_service.controller;
 
 import in.yash.linkedin.user_service.dto.SignUpRequestDto;
 import in.yash.linkedin.user_service.dto.UserDto;
+import in.yash.linkedin.user_service.dto.loginRequestDto;
 import in.yash.linkedin.user_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,5 +24,11 @@ public class AuthController {
     public ResponseEntity<UserDto>signUp(@RequestBody SignUpRequestDto signUpRequestDto){
         UserDto userDto=authService.signUp(signUpRequestDto);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String>login(@RequestBody loginRequestDto loginRequestDto){
+        String token=authService.login(loginRequestDto);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
